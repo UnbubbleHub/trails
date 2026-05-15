@@ -1,0 +1,37 @@
+{
+  "name": "unbubble-trails",
+  "version": "0.1.0",
+  "private": false,
+  "license": "MIT",
+  "description": "Unbubble Trails — a Telegram bot for following narrow, source-curated news trails with AI filtering and summarization.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/UnbubbleHub/trails.git"
+  },
+  "packageManager": "pnpm@10.27.0",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "setup": "tsx scripts/setup.ts",
+    "poll": "tsx scripts/poll.ts"
+  },
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "firebase-admin": "^13.4.0",
+    "next": "15.2.6",
+    "next-intl": "^4.6.1",
+    "openai": "^6.16.0",
+    "probe-image-size": "^7.2.3",
+    "react": "19.1.0",
+    "react-dom": "19.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.11",
+    "@types/probe-image-size": "^7.2.5",
+    "@types/react": "19.2.14",
+    "tsx": "^4.19.2",
+    "typescript": "5.8.2"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "trails": {
+    "welcome": "👋 Benvenuto su <b>Unbubble Trails</b>.\n\nTi aiuto a seguire le storie che ti interessano davvero. Descrivile con parole tue e riceverai un messaggio solo quando succede qualcosa di rilevante. Niente rumore, niente sovraccarico.\n\nComandi:\n/new — crea un nuovo trail\n/trails — gestisci i tuoi trail\n/help — mostra questa guida",
+    "help": "<b>Unbubble Trails</b>\n\nDescrivi con parole tue una storia di attualità o un tema specifico che vuoi seguire. Ti aiuto a perfezionare la definizione e mi assicuro di averla capita bene. Una volta confermato, riceverai un breve riepilogo quando viene pubblicato qualcosa di nuovo e significativo.\n\nUsa /new per iniziare, /trails per gestire i tuoi trail, /cancel per uscire da un flusso.",
+    "cancelled": "OK, annullato.",
+    "unknownInput": "Non ho capito. Usa /new per creare un nuovo trail o /trails per gestire i tuoi trail.",
+    "new": {
+      "capReached": "Hai raggiunto il massimo di {cap} trail attivi. Metti in pausa o rimuovine uno con /trails prima di aggiungerne un altro."
+    },
+    "subscribe": {
+      "saved": "✅ Trail attivato. Ti scrivo appena succede qualcosa di interessante.",
+      "savedEdit": "✅ Trail salvato.",
+      "manage": "⚙️ Gestisci i miei trail"
+    },
+    "notification": {
+      "footer": "Stai seguendo {topic} @UnbubbleTrailsBot.",
+      "manage": "⚙️ Gestisci",
+      "stop": "🔕 Smetti di seguire questo trail"
+    },
+    "manage": {
+      "header": "I tuoi trail attivi",
+      "headerSubtitle": "{n, plural, =1 {Stai seguendo 1 trail} other {Stai seguendo # trail}}. Tocca un trail per modificarlo, metterlo in pausa o eliminarlo.",
+      "empty": "Non stai ancora seguendo nessun trail. Tocca ➕ per aggiungerne uno.",
+      "edit": "✏️ Modifica",
+      "allSources": "Tutte le fonti",
+      "delete": "🗑️ Elimina",
+      "new": "➕ Nuovo trail",
+      "back": "‹ Indietro",
+      "prev": "‹",
+      "next": "›",
+      "pageIndicator": "{current}/{total}",
+      "cancel": "Annulla",
+      "deletePrompt": "Vuoi smettere di seguire <b>{title}</b>?",
+      "deleteConfirm": "Sì, smetti",
+      "deleteAck": "Non segui più <b>{title}</b>.",
+      "deleteAckToast": "Rimosso"
+    },
+    "error": {
+      "generic": "Qualcosa è andato storto. Riprova tra un attimo.",
+      "notFound": "Questo trail non esiste più."
+    },
+    "botProfile": {
+      "name": "Unbubble Trails",
+      "shortDescription": "Basta sovraccarico informativo. Scegli le storie che vuoi seguire e non perderti mai ciò che conta.",
+      "longDescription": "Un nuovo modo di restare informato senza sentirsi sopraffatti. Sei tu a decidere quali storie di attualità vuoi seguire, definendole con parole tue. Ti avviso solo quando viene pubblicato qualcosa di davvero rilevante per te."
+    },
+    "create": {
+      "opener": "Quale trail vorresti seguire? Descrivilo con parole tue. Più è specifico, meglio è. Per esempio:\n\n💡 <i>Crisi dello Stretto di Hormuz</i>\n💡 <i>Nuove leggi e sentenze sui social media e le big tech</i>\n💡 <i>Come si evolvono i modelli AI di frontiera. Segui OpenAI, Anthropic, Google DeepMind e i principali laboratori cinesi (Qwen, DeepSeek). Notifica rilasci importanti, salti nei benchmark e valutazioni di sicurezza. Salta round di finanziamento e cambi di executive.</i>.",
+      "editOpener": "Stai modificando <b>{title}</b>. Cosa vorresti cambiare? Per esempio, puoi chiedermi di cambiare il titolo, la definizione o l'elenco delle fonti che stiamo monitorando. Possiamo ampliare l'ambito o restringerlo.",
+      "confirmButton": "✅ Conferma",
+      "sourcesConfirmPrompt": "Tocca Conferma se vanno bene, oppure rispondi se vuoi rimuovere o aggiungere qualche fonte.",
+      "previewConfirmPrompt": "Tocca Conferma per iniziare a ricevere aggiornamenti da questo trail, oppure rispondi se vuoi cambiare qualcosa.",
+      "previewEmptyConfirmPrompt": "Tocca Conferma per salvare comunque il trail, oppure rispondi con una modifica.",
+      "emptyReply": "Non so cosa dire. Prova con /cancel e ricomincia.",
+      "turnCap": "Questa conversazione si è allungata. Ricominciamo — usa /new per avviare un nuovo trail.",
+      "loadingPhrases": [
+        "Sto pensando…",
+        "Mormoro…",
+        "Rifletto…",
+        "Un attimo…",
+        "Sto collegando i puntini…",
+        "Mmm…"
+      ]
+    }
+  }
+}

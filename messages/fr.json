@@ -1,0 +1,66 @@
+{
+  "trails": {
+    "welcome": "👋 Bienvenue sur <b>Unbubble Trails</b>.\n\nJe vous aide à suivre les histoires qui vous tiennent à cœur. Décrivez avec vos propres mots ce qui vous intéresse et recevez un message uniquement quand quelque chose de vraiment significatif se produit. Pas de bruit, pas de surcharge.\n\nCommandes :\n/new — créer un nouveau trail\n/trails — gérer vos trails\n/help — afficher l'aide",
+    "help": "<b>Unbubble Trails</b>\n\nDécrivez avec vos propres mots une histoire d'actualité ou un sujet précis que vous voulez suivre. Je vous aide à affiner la définition et je m'assure de bien la comprendre. Une fois que vous confirmez, vous recevrez un bref résumé chaque fois qu'une nouveauté pertinente sera publiée.\n\nUtilisez /new pour commencer, /trails pour gérer, /cancel pour sortir.",
+    "cancelled": "D'accord, annulé.",
+    "unknownInput": "Je n'ai pas compris. Utilisez /new pour créer un nouveau trail ou /trails pour gérer vos trails.",
+    "new": {
+      "capReached": "Tu as atteint le maximum de {cap} trails actifs. Mets en pause ou supprime-en un avec /trails avant d'en ajouter un nouveau."
+    },
+    "subscribe": {
+      "saved": "✅ Trail démarré. Je t'écris dès qu'il se passe quelque chose d'intéressant.",
+      "savedEdit": "✅ Trail enregistré.",
+      "manage": "⚙️ Gérer mes trails"
+    },
+    "notification": {
+      "footer": "Vous suivez {topic} @UnbubbleTrailsBot.",
+      "manage": "⚙️ Gérer",
+      "stop": "🔕 Arrêter ce trail"
+    },
+    "manage": {
+      "header": "Vos trails actifs",
+      "headerSubtitle": "{n, plural, =1 {Vous suivez 1 trail} other {Vous suivez # trails}}. Appuyez sur un trail pour le modifier, le mettre en pause ou le supprimer.",
+      "empty": "Vous ne suivez encore aucun trail. Appuyez sur ➕ pour en ajouter un.",
+      "edit": "✏️ Modifier",
+      "allSources": "Toutes les sources",
+      "delete": "🗑️ Supprimer",
+      "new": "➕ Nouveau trail",
+      "back": "‹ Retour",
+      "prev": "‹",
+      "next": "›",
+      "pageIndicator": "{current}/{total}",
+      "cancel": "Annuler",
+      "deletePrompt": "Voulez-vous arrêter de suivre <b>{title}</b> ?",
+      "deleteConfirm": "Oui, arrêter",
+      "deleteAck": "Vous ne suivez plus <b>{title}</b>.",
+      "deleteAckToast": "Désabonné"
+    },
+    "error": {
+      "generic": "Une erreur est survenue. Réessayez dans un instant.",
+      "notFound": "Ce trail n'existe plus."
+    },
+    "botProfile": {
+      "name": "Unbubble Trails",
+      "shortDescription": "Stop à la surcharge d'infos. Choisissez les histoires que vous voulez suivre et ne manquez jamais ce qui compte.",
+      "longDescription": "Une nouvelle approche pour rester informé sans se sentir submergé. Vous décidez quelles histoires d'actualité suivre, en les décrivant avec vos propres mots. Je vous préviens uniquement quand quelque chose de vraiment pertinent pour vous est publié."
+    },
+    "create": {
+      "opener": "Quel trail aimerais-tu suivre ? Décris-le avec tes propres mots. Plus c'est précis, mieux c'est. Par exemple :\n\n💡 <i>Crise du détroit d'Ormuz</i>\n💡 <i>Nouvelles lois et décisions sur les réseaux sociaux et les big tech</i>\n💡 <i>Comment évoluent les modèles d'IA de pointe. Suis OpenAI, Anthropic, Google DeepMind et les principaux laboratoires chinois (Qwen, DeepSeek). Notifie les sorties majeures, les sauts de benchmark et les évaluations de sécurité. Ignore les levées de fonds et les changements d'exécutifs.</i>.",
+      "editOpener": "Tu modifies <b>{title}</b>. Que souhaites-tu changer ? Par exemple, tu peux me demander de changer le titre, la définition ou la liste des sources que nous surveillons. On peut élargir le champ ou le restreindre.",
+      "confirmButton": "✅ Confirmer",
+      "sourcesConfirmPrompt": "Appuie sur Confirmer si ça te convient, ou réponds si tu veux retirer ou ajouter une source.",
+      "previewConfirmPrompt": "Appuie sur Confirmer pour recevoir les mises à jour de ce trail, ou réponds si tu veux changer quelque chose.",
+      "previewEmptyConfirmPrompt": "Appuie sur Confirmer pour enregistrer le trail malgré tout, ou réponds avec une modification.",
+      "emptyReply": "Je ne sais pas quoi dire. Essaie /cancel et recommence.",
+      "turnCap": "Cette conversation est devenue longue. Repartons à zéro — utilise /new pour démarrer un nouveau trail.",
+      "loadingPhrases": [
+        "Réflexion…",
+        "Marmonne…",
+        "Médite…",
+        "Un instant…",
+        "Relie les points…",
+        "Hmm…"
+      ]
+    }
+  }
+}

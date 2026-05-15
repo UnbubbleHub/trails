@@ -1,0 +1,66 @@
+{
+  "trails": {
+    "welcome": "👋 Welcome to <b>Unbubble Trails</b>.\n\nI'll help you follow the stories you care about. Describe what you care about in your own words and get a message only when something meaningful actually happens. No noise, no overload.\n\nCommands:\n/new — follow a new trail\n/trails — manage your trails\n/help — show this help",
+    "help": "<b>Unbubble Trails</b>\n\nYou describe a news story or narrow topic you want to follow in your own words. I help you refine the definition and make sure I understand it correctly. Once you confirm, you'll get a short summary when something new and meaningful is published.\n\nUse /new to start, /trails to manage your trails, /cancel to exit a flow.",
+    "cancelled": "OK, cancelled.",
+    "unknownInput": "Not sure what you meant. Try /new to follow a new trail or /trails to manage your trails.",
+    "new": {
+      "capReached": "You've reached the maximum of {cap} active trails. Pause or remove one with /trails before adding another."
+    },
+    "create": {
+      "opener": "What trail would you like to follow? Describe it in your own words. The more specific, the better. For example:\n\n💡 <i>Strait of Hormuz crisis</i>\n💡 <i>New laws and rulings on social media and big tech</i>\n💡 <i>How frontier AI models are evolving. Follow OpenAI, Anthropic, Google DeepMind and major Chinese labs (Qwen, DeepSeek). Notify major releases, benchmark jumps and safety evaluations. Skip funding rounds and exec moves.</i>.",
+      "editOpener": "Editing <b>{title}</b>. What would you like to change? For example, you can ask me to change the title, the definition or the list of sources we are monitoring. We can broaden the scope or narrow it down.",
+      "confirmButton": "✅ Confirm",
+      "sourcesConfirmPrompt": "Tap Confirm if these look right, or reply if you'd like to remove or add any source.",
+      "previewConfirmPrompt": "Tap Confirm to start receiving updates from this trail, or reply if you'd like to change anything.",
+      "previewEmptyConfirmPrompt": "Tap Confirm to save the trail anyway, or reply with a change.",
+      "emptyReply": "I'm not sure what to say. Try /cancel and start over.",
+      "turnCap": "This conversation has gotten long. Let's start fresh — use /new to begin a new trail.",
+      "loadingPhrases": [
+        "Thinking…",
+        "Mumbling…",
+        "Pondering…",
+        "Just a sec…",
+        "Connecting dots…",
+        "Hmmm…"
+      ]
+    },
+    "subscribe": {
+      "saved": "✅ Trail started. I'll message you as soon as something interesting comes up.",
+      "savedEdit": "✅ Trail saved.",
+      "manage": "⚙️ Manage my trails"
+    },
+    "notification": {
+      "footer": "You're following {topic} @UnbubbleTrailsBot.",
+      "manage": "⚙️ Manage",
+      "stop": "🔕 Stop this trail"
+    },
+    "manage": {
+      "header": "Your active trails",
+      "headerSubtitle": "{n, plural, =1 {You're following 1 trail} other {You're following # trails}}. Tap a trail to edit, pause or delete.",
+      "empty": "You're not following any trails yet. Tap ➕ to add one.",
+      "edit": "✏️ Edit",
+      "allSources": "All sources",
+      "delete": "🗑️ Delete",
+      "new": "➕ New trail",
+      "back": "‹ Back",
+      "prev": "‹",
+      "next": "›",
+      "pageIndicator": "{current}/{total}",
+      "cancel": "Cancel",
+      "deletePrompt": "Stop following <b>{title}</b>?",
+      "deleteConfirm": "Yes, stop",
+      "deleteAck": "Unfollowed <b>{title}</b>.",
+      "deleteAckToast": "Unfollowed"
+    },
+    "error": {
+      "generic": "Something went wrong. Please try again in a moment.",
+      "notFound": "That trail no longer exists."
+    },
+    "botProfile": {
+      "name": "Unbubble Trails",
+      "shortDescription": "Stop the news overload. Pick the stories you want to follow and never miss what matters.",
+      "longDescription": "A new paradigm for staying informed without feeling overwhelmed. You decide which news stories you want to follow, defining them in your own words. I'll notify you only when something truly relevant for you comes up."
+    }
+  }
+}

@@ -16,58 +16,55 @@
  * Usage: npx tsx scripts/poll.ts [local-webhook-url]
  */
 
-import dotenv from "dotenv";
-import path from "path";
+import dotenv from 'dotenv';
+import path from 'path';
 
-dotenv.config({ path: path.resolve(__dirname, "../.env") });
-dotenv.config({ path: path.resolve(__dirname, "../.env.local") });
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
+dotenv.config({ path: path.resolve(__dirname, '../.env.local') });
 
 const BOT_TOKEN = process.env.TELEGRAM_TRAILS_API_SECRET;
 const WEBHOOK_SECRET = process.env.TELEGRAM_TRAILS_WEBHOOK_SECRET;
 
 if (!BOT_TOKEN) {
-  console.error("❌ TELEGRAM_TRAILS_API_SECRET is not set in .env[.local]");
+  console.error('❌ TELEGRAM_TRAILS_API_SECRET is not set in .env[.local]');
   process.exit(1);
 }
 if (!WEBHOOK_SECRET) {
-  console.error("❌ TELEGRAM_TRAILS_WEBHOOK_SECRET is not set in .env[.local]");
+  console.error('❌ TELEGRAM_TRAILS_WEBHOOK_SECRET is not set in .env[.local]');
   process.exit(1);
 }
 
-const LOCAL_WEBHOOK_URL =
-  process.argv[2] || "http://localhost:3000/api/webhooks/trails";
+const LOCAL_WEBHOOK_URL = process.argv[2] || 'http://localhost:3000/api/webhooks/trails';
 const PRODUCTION_WEBHOOK_URL = process.env.TRAILS_WEBHOOK_URL;
 
 const API_URL = `https://api.telegram.org/bot${BOT_TOKEN}`;
 const POLL_TIMEOUT_SECONDS = 30;
-const ALLOWED_UPDATES = ["message", "callback_query"];
+const ALLOWED_UPDATES = ['message', 'callback_query'];
 
 let offset = 0;
 let running = true;
 
 async function deleteWebhook(): Promise<void> {
-  console.log("🔌 Removing existing webhook (required for getUpdates)...");
+  console.log('🔌 Removing existing webhook (required for getUpdates)...');
   const res = await fetch(`${API_URL}/deleteWebhook`);
   const data = await res.json();
   if (!data.ok) {
-    console.error("❌ deleteWebhook failed:", data);
+    console.error('❌ deleteWebhook failed:', data);
     process.exit(1);
   }
-  console.log("   Webhook removed.");
+  console.log('   Webhook removed.');
 }
 
 async function restoreProductionWebhook(): Promise<void> {
   if (!PRODUCTION_WEBHOOK_URL) {
-    console.log(
-      "ℹ️  TRAILS_WEBHOOK_URL not set — leaving the webhook deleted (local-only setup).",
-    );
+    console.log('ℹ️  TRAILS_WEBHOOK_URL not set — leaving the webhook deleted (local-only setup).');
     return;
   }
   console.log(`🔁 Restoring production webhook: ${PRODUCTION_WEBHOOK_URL}`);
   try {
     const res = await fetch(`${API_URL}/setWebhook`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         url: PRODUCTION_WEBHOOK_URL,
         secret_token: WEBHOOK_SECRET,
@@ -76,14 +73,14 @@ async function restoreProductionWebhook(): Promise<void> {
     });
     const data = await res.json();
     if (!data.ok) {
-      console.error("   ❌ setWebhook failed:", data);
+      console.error('   ❌ setWebhook failed:', data);
       return;
     }
-    console.log("   ✅ Production webhook restored.");
+    console.log('   ✅ Production webhook restored.');
   } catch (err) {
     console.error(
-      "   ❌ Failed to restore production webhook:",
-      err instanceof Error ? err.message : err,
+      '   ❌ Failed to restore production webhook:',
+      err instanceof Error ? err.message : err
     );
   }
 }
@@ -102,13 +99,13 @@ async function pollOnce(): Promise<void> {
     const res = await fetch(url);
     data = await res.json();
   } catch (err) {
-    console.error("⚠️  getUpdates network error:", err);
+    console.error('⚠️  getUpdates network error:', err);
     await new Promise((r) => setTimeout(r, 3000));
     return;
   }
 
   if (!data.ok) {
-    console.error("⚠️  getUpdates error:", data.description);
+    console.error('⚠️  getUpdates error:', data.description);
     await new Promise((r) => setTimeout(r, 3000));
     return;
   }
@@ -119,10 +116,10 @@ async function pollOnce(): Promise<void> {
     console.log(`\n📨 Received update ${update.update_id}`);
     try {
       const res = await fetch(LOCAL_WEBHOOK_URL, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
-          "X-Telegram-Bot-Api-Secret-Token": WEBHOOK_SECRET!,
+          'Content-Type': 'application/json',
+          'X-Telegram-Bot-Api-Secret-Token': WEBHOOK_SECRET!,
         },
         body: JSON.stringify(update),
       });
@@ -136,23 +133,21 @@ async function pollOnce(): Promise<void> {
     } catch (err) {
       console.error(
         `   ❌ Failed to forward to ${LOCAL_WEBHOOK_URL}:`,
-        err instanceof Error ? err.message : err,
+        err instanceof Error ? err.message : err
       );
-      console.error("   Is the Next.js dev server running?");
+      console.error('   Is the Next.js dev server running?');
     }
   }
 }
 
 async function main(): Promise<void> {
-  console.log("🤖 Unbubble Trails Bot Polling (dev mode)");
+  console.log('🤖 Unbubble Trails Bot Polling (dev mode)');
   console.log(`   Forwarding to: ${LOCAL_WEBHOOK_URL}`);
-  console.log("   Press Ctrl+C to stop\n");
+  console.log('   Press Ctrl+C to stop\n');
 
   await deleteWebhook();
 
-  console.log(
-    `\n👂 Polling for updates (${POLL_TIMEOUT_SECONDS}s long-poll)...\n`,
-  );
+  console.log(`\n👂 Polling for updates (${POLL_TIMEOUT_SECONDS}s long-poll)...\n`);
 
   while (running) {
     await pollOnce();
@@ -163,20 +158,20 @@ let shuttingDown = false;
 async function shutdown(): Promise<void> {
   if (shuttingDown) return;
   shuttingDown = true;
-  console.log("\n\n🛑 Stopping polling...");
+  console.log('\n\n🛑 Stopping polling...');
   running = false;
   await restoreProductionWebhook();
   process.exit(0);
 }
 
-process.on("SIGINT", () => {
+process.on('SIGINT', () => {
   void shutdown();
 });
-process.on("SIGTERM", () => {
+process.on('SIGTERM', () => {
   void shutdown();
 });
 
 main().catch((err) => {
-  console.error("Fatal error:", err);
+  console.error('Fatal error:', err);
   process.exit(1);
 });

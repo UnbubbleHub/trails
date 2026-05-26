@@ -9,11 +9,18 @@
     "url": "https://github.com/UnbubbleHub/trails.git"
   },
   "packageManager": "pnpm@10.27.0",
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
+    "lint": "next lint --max-warnings 0",
+    "prettier:check": "prettier --check \"**/*.{ts,tsx,json,md}\"",
+    "prettier:write": "prettier --write \"**/*.{ts,tsx,json,md}\"",
+    "test": "pnpm run prettier:check && pnpm run lint && pnpm run typecheck",
     "setup": "tsx scripts/setup.ts",
     "poll": "tsx scripts/poll.ts"
   },
@@ -28,9 +35,15 @@
     "react-dom": "19.1.0"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
+    "@eslint/js": "^9.23.0",
     "@types/node": "^22.13.11",
     "@types/probe-image-size": "^7.2.5",
     "@types/react": "19.2.14",
+    "eslint": "^9.23.0",
+    "eslint-config-next": "^15.3.3",
+    "eslint-config-prettier": "^10.1.5",
+    "prettier": "^3.5.3",
     "tsx": "^4.19.2",
     "typescript": "5.8.2"
   }

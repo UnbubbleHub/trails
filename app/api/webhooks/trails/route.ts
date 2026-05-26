@@ -1,4 +1,5 @@
 import { after, type NextRequest } from 'next/server';
+import { safeCompare } from '@/lib/safe-compare';
 import type { TelegramUpdate } from '@/lib/telegram/types';
 import { dispatchTrailsUpdate } from '@/lib/trails/dispatcher';
 
@@ -15,9 +16,9 @@ export const maxDuration = 300;
  */
 export async function POST(request: NextRequest) {
   try {
-    const secretHeader = request.headers.get('x-telegram-bot-api-secret-token');
-    const expectedSecret = process.env.TELEGRAM_TRAILS_WEBHOOK_SECRET;
-    if (!expectedSecret || secretHeader !== expectedSecret) {
+    const secretHeader = request.headers.get('x-telegram-bot-api-secret-token') ?? '';
+    const expectedSecret = process.env.TELEGRAM_TRAILS_WEBHOOK_SECRET ?? '';
+    if (!expectedSecret || !secretHeader || !safeCompare(expectedSecret, secretHeader)) {
       console.error('[Trails] Webhook secret mismatch');
       return new Response('OK', { status: 200 });
     }

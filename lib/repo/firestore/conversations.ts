@@ -5,10 +5,7 @@
  * increment, and the lazy 15-min expiry check on read.
  */
 import type { Locale } from '@/i18n/config';
-import type {
-  TopicConversationRecord,
-  TopicConversationState,
-} from '@/lib/repo/types';
+import type { TopicConversationRecord, TopicConversationState } from '@/lib/repo/types';
 import type { ConversationRepo } from '@/lib/repo/index';
 import {
   CONVERSATIONS_COLLECTION,
@@ -83,8 +80,7 @@ export const firestoreConversations: ConversationRepo = {
         runTx(async (tx) => {
           const snap = await tx.get(ref);
           const data = snap.data();
-          const windowStart =
-            (data?.exaCallsWindowStart as Timestamp | undefined)?.toDate() ?? now;
+          const windowStart = (data?.exaCallsWindowStart as Timestamp | undefined)?.toDate() ?? now;
           const count = (data?.exaCallsThisHour as number | undefined) ?? 0;
 
           const doc: Record<string, unknown> = {

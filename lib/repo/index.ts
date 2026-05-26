@@ -53,11 +53,7 @@ export interface ConversationRepo {
     state: TopicConversationState
   ): Promise<void>;
   /** Atomic rolling-1h-window increment; returns the post-increment count. */
-  incrementExaCallCounter(
-    chatId: number,
-    telegramUserId: number,
-    locale: Locale
-  ): Promise<number>;
+  incrementExaCallCounter(chatId: number, telegramUserId: number, locale: Locale): Promise<number>;
   clear(chatId: number, telegramUserId: number, locale: Locale): Promise<void>;
 }
 
@@ -93,8 +89,4 @@ export function getRepo(): Repo {
 }
 
 // Pure id helpers — backend-agnostic, re-exported for convenience.
-export {
-  buildSubscriptionId,
-  parseSubscriptionId,
-  suffixOfSubscriptionId,
-} from '@/lib/repo/ids';
+export { buildSubscriptionId, parseSubscriptionId, suffixOfSubscriptionId } from '@/lib/repo/ids';

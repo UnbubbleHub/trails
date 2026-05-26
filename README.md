@@ -21,6 +21,59 @@ small repository interface (`lib/repo`) so other backends can be added later.
 
 Locale follows your Telegram client language (en/it/de/es/fr).
 
+## Architecture
+
+A single Next.js 15 App Router app, two route handlers, and a small set of
+library modules. No separate workers, queues, or services.
+
+```
+┌──────────────┐   webhook    ┌──────────────────────────────┐
+│ Telegram Bot │ ───────────► │ POST /api/webhooks/trails    │
+│  (BotFather) │              │   → dispatcher → agent       │
+└──────────────┘              │     (lib/trails/agent/*)     │
+                              │   → repo (lib/repo/*)        │
+                              └──────────────┬───────────────┘
+                                             │
+┌────────────────────┐  bearer-auth          ▼
+│ Scheduler (Vercel  │ ───────────► ┌──────────────────────────────┐
+│ cron OR external)  │              │ GET /api/cron/trail-         │
+└────────────────────┘              │     notifications            │
+                                    │   → repo.subscriptions.      │
+                                    │     listDue()                │
+                                    │   → Exa search (per source)  │
+                                    │   → OpenAI: meaningful?      │
+                                    │   → OpenAI: summarize        │
+                                    │   → Telegram send            │
+                                    │   → repo.notifications.      │
+                                    │     create() (dedup)         │
+                                    └──────────────────────────────┘
+```
+
+Key modules:
+
+| Path                                        | Responsibility                                                                                 |
+| ------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `app/api/webhooks/trails/route.ts`          | Telegram webhook entry. Verifies secret, returns 200, defers work to `after()`.                |
+| `app/api/cron/trail-notifications/route.ts` | Cron entry. Bearer-auth, batched worker pool with global time budget.                          |
+| `lib/trails/dispatcher.ts`                  | Routes a Telegram update to the right handler (commands, callbacks, agent turn).               |
+| `lib/trails/agent/*`                        | The `/new` conversational agent: tools, system prompt, runner, outlet discovery, title polish. |
+| `lib/trails/notify.ts`                      | Per-trail notification flow: search → filter → summarize → send.                               |
+| `lib/trails/cover-candidates.ts`            | Picks a cover image from search-result thumbnails.                                             |
+| `lib/repo/*`                                | Persistence interface. Firestore is the only implementation; new backends drop in here.        |
+| `lib/search/*`                              | Exa client wrapper.                                                                            |
+| `lib/ai/*`                                  | OpenAI client + analysis steps (meaningful-update filter, summarization).                      |
+| `lib/telegram/*`                            | Bot API wrapper, Telegram types, message formatting.                                           |
+| `lib/safe-compare.ts`                       | Constant-time comparison for bearer/webhook secrets.                                           |
+| `i18n/`, `messages/*.json`                  | next-intl setup; locale follows Telegram client language.                                      |
+
+Data lives in Firestore under three collections: `trails-subscriptions`,
+`trails-conversations`, `trails-notifications` (see [Firestore setup](#firestore-setup)).
+
+## Requirements
+
+- **Node.js** ≥ 22.12.0 (matches `package.json` `engines`; `.nvmrc` is present)
+- **pnpm** 10.x (the repo pins `pnpm@10.27.0` via `packageManager`)
+
 ## Setup
 
 ```bash
@@ -52,10 +105,31 @@ pnpm poll              # in a second shell — long-polls Telegram → localhost
 
 ## Deploy
 
-Deploy as a normal Next.js app (e.g. Vercel). `vercel.json` registers the
-`/api/cron/trail-notifications` cron (`0 2,6,10,14,18,22 * * *`). Set all
-environment variables from `.env.example` in the deployment, then run
-`pnpm setup <prod-webhook-url>` once.
+This is a plain Next.js 15 App Router app — `next build` / `next start`, no
+Vercel-only runtime APIs. It runs anywhere Next.js runs (Vercel, Render, Fly,
+a VPS, Docker).
+
+1. Set all environment variables from `.env.example` in the deployment.
+2. Build and start the app (`pnpm build && pnpm start`, or your platform's
+   equivalent).
+3. Run `pnpm setup <prod-webhook-url>` once against the live URL.
+
+### Cron
+
+The cron route is `GET /api/cron/trail-notifications`, gated by a bearer
+token (`CRON_SECRET`). It needs to fire roughly every 4 hours.
+
+- **On Vercel:** `vercel.json` already registers the schedule
+  `0 2,6,10,14,18,22 * * *` — six runs/day at 02/06/10/14/18/22 UTC. Vercel
+  injects the `Authorization: Bearer $CRON_SECRET` header automatically when
+  `CRON_SECRET` is set as a project env var. No extra work needed.
+- **Anywhere else:** wire up your own scheduler (GitHub Actions on a `schedule`,
+  cron-job.org, a Kubernetes CronJob, a system `crontab`, etc.) to send:
+
+  ```
+  GET https://your-host/api/cron/trail-notifications
+  Authorization: Bearer <CRON_SECRET>
+  ```
 
 ## Firestore setup
 
@@ -69,10 +143,10 @@ Two things must be configured **before** the bot works end to end.
 Two queries need composite indexes — without them the `/trails` manage list
 and the cron's notification dedup will fail at runtime:
 
-| Collection | Query | Index |
-|---|---|---|
+| Collection             | Query                            | Index                                  |
+| ---------------------- | -------------------------------- | -------------------------------------- |
 | `trails-subscriptions` | list a user's trails (`/trails`) | `telegramUserId` ASC, `createdAt` DESC |
-| `trails-notifications` | recent-sent dedup (cron) | `subscriptionId` ASC, `sentAt` DESC |
+| `trails-notifications` | recent-sent dedup (cron)         | `subscriptionId` ASC, `sentAt` DESC    |
 
 These ship in [`firestore.indexes.json`](./firestore.indexes.json). Deploy them
 with the Firebase CLI (one-time, ~1–2 min to build):

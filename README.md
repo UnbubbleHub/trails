@@ -21,6 +21,11 @@ small repository interface (`lib/repo`) so other backends can be added later.
 
 Locale follows your Telegram client language (en/it/de/es/fr).
 
+## Requirements
+
+- **Node.js** ≥ 18.17 (Next.js 15 baseline; 20.x recommended)
+- **pnpm** 10.x (the repo pins `pnpm@10.27.0` via `packageManager`)
+
 ## Setup
 
 ```bash
@@ -52,10 +57,31 @@ pnpm poll              # in a second shell — long-polls Telegram → localhost
 
 ## Deploy
 
-Deploy as a normal Next.js app (e.g. Vercel). `vercel.json` registers the
-`/api/cron/trail-notifications` cron (`0 2,6,10,14,18,22 * * *`). Set all
-environment variables from `.env.example` in the deployment, then run
-`pnpm setup <prod-webhook-url>` once.
+This is a plain Next.js 15 App Router app — `next build` / `next start`, no
+Vercel-only runtime APIs. It runs anywhere Next.js runs (Vercel, Render, Fly,
+a VPS, Docker).
+
+1. Set all environment variables from `.env.example` in the deployment.
+2. Build and start the app (`pnpm build && pnpm start`, or your platform's
+   equivalent).
+3. Run `pnpm setup <prod-webhook-url>` once against the live URL.
+
+### Cron
+
+The cron route is `GET /api/cron/trail-notifications`, gated by a bearer
+token (`CRON_SECRET`). It needs to fire roughly every 4 hours.
+
+- **On Vercel:** `vercel.json` already registers the schedule
+  `0 2,6,10,14,18,22 * * *` — six runs/day at 02/06/10/14/18/22 UTC. Vercel
+  injects the `Authorization: Bearer $CRON_SECRET` header automatically when
+  `CRON_SECRET` is set as a project env var. No extra work needed.
+- **Anywhere else:** wire up your own scheduler (GitHub Actions on a `schedule`,
+  cron-job.org, a Kubernetes CronJob, a system `crontab`, etc.) to send:
+
+  ```
+  GET https://your-host/api/cron/trail-notifications
+  Authorization: Bearer <CRON_SECRET>
+  ```
 
 ## Firestore setup
 

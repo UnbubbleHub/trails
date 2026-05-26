@@ -191,8 +191,7 @@ async function executeProposeSources(
   const prevDomains = new Set((ctx.draft.sources ?? []).map((s) => s.domain));
   const nextDomains = new Set(sources.map((s) => s.domain));
   const domainsChanged =
-    prevDomains.size !== nextDomains.size ||
-    [...nextDomains].some((d) => !prevDomains.has(d));
+    prevDomains.size !== nextDomains.size || [...nextDomains].some((d) => !prevDomains.has(d));
 
   ctx.draft.sources = sources;
   if (domainsChanged) {

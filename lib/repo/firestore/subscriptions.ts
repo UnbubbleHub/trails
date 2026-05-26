@@ -4,10 +4,7 @@
  * are funneled through `./primitives` and the collection is `trails-*`.
  */
 import { buildSubscriptionId } from '@/lib/repo/ids';
-import type {
-  TopicSubscriptionDraft,
-  TopicSubscriptionRecord,
-} from '@/lib/repo/types';
+import type { TopicSubscriptionDraft, TopicSubscriptionRecord } from '@/lib/repo/types';
 import type { SubscriptionRepo } from '@/lib/repo/index';
 import {
   db,
@@ -68,9 +65,7 @@ export const firestoreSubscriptions: SubscriptionRepo = {
       .orderBy('createdAt', 'desc')
       .get();
 
-    return snap.docs.map((d) =>
-      fromFs<TopicSubscriptionRecord>({ id: d.id, ...d.data() })
-    );
+    return snap.docs.map((d) => fromFs<TopicSubscriptionRecord>({ id: d.id, ...d.data() }));
   },
 
   /** Count subscriptions for a user. Used for the per-user cap. */
@@ -92,9 +87,7 @@ export const firestoreSubscriptions: SubscriptionRepo = {
       .limit(limit)
       .get();
 
-    return snap.docs.map((d) =>
-      fromFs<TopicSubscriptionRecord>({ id: d.id, ...d.data() })
-    );
+    return snap.docs.map((d) => fromFs<TopicSubscriptionRecord>({ id: d.id, ...d.data() }));
   },
 
   /** Edit a subscription in place: replaces prompt + derived query fields. */

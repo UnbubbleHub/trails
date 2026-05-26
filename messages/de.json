@@ -53,14 +53,7 @@
       "previewEmptyConfirmPrompt": "Tippe auf Bestätigen, um den Trail trotzdem zu speichern, oder antworte mit einer Änderung.",
       "emptyReply": "Ich weiß nicht, was ich sagen soll. Versuche /cancel und fang neu an.",
       "turnCap": "Diese Unterhaltung ist lang geworden. Fangen wir frisch an — nutze /new, um einen neuen Trail zu beginnen.",
-      "loadingPhrases": [
-        "Denke nach…",
-        "Murmle…",
-        "Grüble…",
-        "Moment…",
-        "Verbinde Punkte…",
-        "Hmm…"
-      ]
+      "loadingPhrases": ["Denke nach…", "Murmle…", "Grüble…", "Moment…", "Verbinde Punkte…", "Hmm…"]
     }
   }
 }

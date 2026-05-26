@@ -4,18 +4,9 @@
  * pure util and now lives in `@/lib/trails/hash-url`.
  */
 import { randomBytes } from 'crypto';
-import type {
-  TopicNotificationInput,
-  TopicNotificationRecord,
-} from '@/lib/repo/types';
+import type { TopicNotificationInput, TopicNotificationRecord } from '@/lib/repo/types';
 import type { NotificationRepo } from '@/lib/repo/index';
-import {
-  db,
-  fromFs,
-  NOTIFICATIONS_COLLECTION,
-  toTs,
-  withRetry,
-} from './primitives';
+import { db, fromFs, NOTIFICATIONS_COLLECTION, toTs, withRetry } from './primitives';
 
 function nid(): string {
   return randomBytes(10).toString('hex');
@@ -49,10 +40,7 @@ export const firestoreNotifications: NotificationRepo = {
   },
 
   /** Get the most recent notifications for a subscription, newest first. */
-  async getRecent(
-    subscriptionId: string,
-    limit: number = 25
-  ): Promise<TopicNotificationRecord[]> {
+  async getRecent(subscriptionId: string, limit: number = 25): Promise<TopicNotificationRecord[]> {
     const snap = await db
       .collection(NOTIFICATIONS_COLLECTION)
       .where('subscriptionId', '==', subscriptionId)
@@ -60,8 +48,6 @@ export const firestoreNotifications: NotificationRepo = {
       .limit(limit)
       .get();
 
-    return snap.docs.map((d) =>
-      fromFs<TopicNotificationRecord>({ id: d.id, ...d.data() })
-    );
+    return snap.docs.map((d) => fromFs<TopicNotificationRecord>({ id: d.id, ...d.data() }));
   },
 };

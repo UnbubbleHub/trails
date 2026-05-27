@@ -4,6 +4,7 @@
     "help": "<b>Unbubble Trails</b>\n\nDécrivez avec vos propres mots une histoire d'actualité ou un sujet précis que vous voulez suivre. Je vous aide à affiner la définition et je m'assure de bien la comprendre. Une fois que vous confirmez, vous recevrez un bref résumé chaque fois qu'une nouveauté pertinente sera publiée.\n\nUtilisez /new pour commencer, /trails pour gérer, /cancel pour sortir.",
     "cancelled": "D'accord, annulé.",
     "unknownInput": "Je n'ai pas compris. Utilisez /new pour créer un nouveau trail ou /trails pour gérer vos trails.",
+    "notAuthorized": "🔒 Ce bot est privé. Demandez à l'administrateur d'ajouter votre identifiant utilisateur Telegram à la liste d'accès :\n\n<code>{userId}</code>",
     "new": {
       "capReached": "Tu as atteint le maximum de {cap} trails actifs. Mets en pause ou supprime-en un avec /trails avant d'en ajouter un nouveau."
     },

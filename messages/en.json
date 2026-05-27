@@ -4,6 +4,7 @@
     "help": "<b>Unbubble Trails</b>\n\nYou describe a news story or narrow topic you want to follow in your own words. I help you refine the definition and make sure I understand it correctly. Once you confirm, you'll get a short summary when something new and meaningful is published.\n\nUse /new to start, /trails to manage your trails, /cancel to exit a flow.",
     "cancelled": "OK, cancelled.",
     "unknownInput": "Not sure what you meant. Try /new to follow a new trail or /trails to manage your trails.",
+    "notAuthorized": "🔒 This bot is private. Ask the administrator to add your Telegram user ID to the allowlist:\n\n<code>{userId}</code>",
     "new": {
       "capReached": "You've reached the maximum of {cap} active trails. Pause or remove one with /trails before adding another."
     },

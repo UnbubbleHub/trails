@@ -57,7 +57,10 @@ async function dispatchMessage(update: TelegramUpdate): Promise<void> {
 
   if (!isUserAuthorized(telegramUserId)) {
     const t = await getTranslations({ locale, namespace: 'trails' });
-    await trailsBot().sendMessage(chatId, t('notAuthorized', { userId: telegramUserId }), {
+    await trailsBot().sendMessage(chatId, t.markup('notAuthorized', {
+      userId: telegramUserId,
+      code: (chunks) => `<code>${chunks}</code>`,
+    }), {
       parseMode: 'HTML',
     });
     return;
@@ -121,7 +124,10 @@ async function dispatchCallbackQuery(update: TelegramUpdate): Promise<void> {
   if (!isUserAuthorized(telegramUserId)) {
     await bot.answerCallbackQuery(cq.id);
     const t = await getTranslations({ locale, namespace: 'trails' });
-    await bot.sendMessage(chatId, t('notAuthorized', { userId: telegramUserId }), {
+    await bot.sendMessage(chatId, t.markup('notAuthorized', {
+      userId: telegramUserId,
+      code: (chunks) => `<code>${chunks}</code>`,
+    }), {
       parseMode: 'HTML',
     });
     return;

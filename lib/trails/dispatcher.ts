@@ -3,6 +3,7 @@ import type { Locale } from '@/i18n/config';
 import { getRepo } from '@/lib/repo';
 import { mapLocale } from '@/lib/telegram/locale';
 import type { TelegramUpdate } from '@/lib/telegram/types';
+import { isUserAuthorized } from './access';
 import { trailsBot } from './bot-api';
 import { decodeCallback } from './callback-data';
 import {
@@ -53,6 +54,17 @@ async function dispatchMessage(update: TelegramUpdate): Promise<void> {
   const telegramUserId = message.from?.id;
   if (!telegramUserId) return;
   const locale = mapLocale(message.from?.language_code);
+
+  if (!isUserAuthorized(telegramUserId)) {
+    const t = await getTranslations({ locale, namespace: 'trails' });
+    await trailsBot().sendMessage(chatId, t.markup('notAuthorized', {
+      userId: telegramUserId,
+      code: (chunks) => `<code>${chunks}</code>`,
+    }), {
+      parseMode: 'HTML',
+    });
+    return;
+  }
 
   const text = (message.text ?? message.caption)?.trim();
 
@@ -108,6 +120,18 @@ async function dispatchCallbackQuery(update: TelegramUpdate): Promise<void> {
   if (!chatId) return;
   const locale: Locale = mapLocale(cq.from.language_code);
   const bot = trailsBot();
+
+  if (!isUserAuthorized(telegramUserId)) {
+    await bot.answerCallbackQuery(cq.id);
+    const t = await getTranslations({ locale, namespace: 'trails' });
+    await bot.sendMessage(chatId, t.markup('notAuthorized', {
+      userId: telegramUserId,
+      code: (chunks) => `<code>${chunks}</code>`,
+    }), {
+      parseMode: 'HTML',
+    });
+    return;
+  }
 
   const payload = decodeCallback(cq.data);
   if (!payload) {

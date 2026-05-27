@@ -4,7 +4,7 @@ import { openai, parseResponseOutput, validateResponse } from '../client';
 
 const MODEL = 'gpt-5.4-mini' as const;
 const SERVICE_TIER = 'auto' as const;
-const REASONING_EFFORT = 'minimal' as const;
+const REASONING_EFFORT = 'low' as const;
 
 export interface RecentSent {
   headline: string;
